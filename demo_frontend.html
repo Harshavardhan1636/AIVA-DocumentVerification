@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIVA Document Verification System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .upload-section {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px dashed #cbd5e1;
+            transition: all 0.3s ease;
+        }
+
+        .upload-section.dragover {
+            border-color: #667eea;
+            background: #eff6ff;
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            color: #94a3b8;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .upload-text {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+
+        .upload-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background: #5a67d8;
+        }
+
+        .upload-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-section {
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .status-section {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-online {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-offline {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .results-section {
+            margin-top: 30px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #e2e8f0;
+            display: none;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .result-value {
+            color: #6b7280;
+        }
+
+        .verification-success {
+            color: #059669;
+            font-weight: 600;
+        }
+
+        .verification-failed {
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ AIVA</h1>
+            <p>AI-Powered Document Verification System</p>
+            <p style="font-size: 0.9rem; margin-top: 10px; opacity: 0.8;">Secure • Transparent • Instant</p>
+        </div>
+
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="upload-section" id="uploadSection">
+                    <div class="upload-icon">📄</div>
+                    <div class="upload-text">
+                        <h3>Upload Document</h3>
+                        <p>Drag and drop your document here, or click to browse</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px; color: #94a3b8;">
+                            Supports: Aadhaar, PAN, Passport, Driving License, etc.
+                        </p>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                            Choose File
+                        </button>
+                        <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
+                    </div>
+                </div>
+
+                <div class="progress-section" id="progressSection" style="display: none;">
+                    <h3>Processing Document...</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p id="progressText">Initializing...</p>
+                </div>
+
+                <div class="results-section" id="resultsSection">
+                    <h3>Verification Results</h3>
+                    <div class="result-item">
+                        <span class="result-label">Document Type:</span>
+                        <span class="result-value" id="docType">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Fraud Score:</span>
+                        <span class="result-value" id="fraudScore">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Confidence:</span>
+                        <span class="result-value" id="confidence">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Status:</span>
+                        <span class="result-value" id="status">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Blockchain Hash:</span>
+                        <span class="result-value" id="blockchainHash">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Processing Time:</span>
+                        <span class="result-value" id="processingTime">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="status-section">
+                    <h3>System Status</h3>
+                    <div class="status-item">
+                        <span>Vision Module (M1)</span>
+                        <span class="status-badge status-online" id="visionStatus">
+                            <span class="loading" id="visionLoading"></span>
+                            <span id="visionText">Checking...</span>
+                        </span>
+                    </div>
+                    <div class="status-item">
+                        <span>AI Module (M3)</span>
+                        <span class="status-badge status-online" id="aiStatus">
+                            <span class="loading" id="aiLoading"></span>
+                            <span id="aiText">Checking...</span>
+                        </span>
+                    </div>
+                    <div class="status-item">
+                        <span>Blockchain Module (M2)</span>
+                        <span class="status-badge status-online" id="blockchainStatus">
+                            <span class="loading" id="blockchainLoading"></span>
+                            <span id="blockchainText">Checking...</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const BACKEND_URL = 'http://localhost:8000';
+        let currentFile = null;
+
+        // Check system status on load
+        window.onload = function() {
+            checkSystemStatus();
+        };
+
+        async function checkSystemStatus() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/status`);
+                const status = await response.json();
+                
+                updateStatus('vision', status.vision_module?.status === 'online');
+                updateStatus('ai', status.ai_module?.status === 'ready');
+                updateStatus('blockchain', status.blockchain_module?.status === 'connected');
+            } catch (error) {
+                console.error('Failed to check system status:', error);
+                updateStatus('vision', false);
+                updateStatus('ai', false);
+                updateStatus('blockchain', false);
+            }
+        }
+
+        function updateStatus(module, isOnline) {
+            const statusElement = document.getElementById(`${module}Status`);
+            const loadingElement = document.getElementById(`${module}Loading`);
+            const textElement = document.getElementById(`${module}Text`);
+            
+            loadingElement.style.display = 'none';
+            textElement.textContent = isOnline ? 'Online' : 'Offline';
+            
+            if (isOnline) {
+                statusElement.className = 'status-badge status-online';
+            } else {
+                statusElement.className = 'status-badge status-offline';
+            }
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                currentFile = file;
+                startVerification();
+            }
+        }
+
+        async function startVerification() {
+            if (!currentFile) return;
+
+            // Show progress section
+            document.getElementById('progressSection').style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'none';
+            
+            // Simulate progress
+            simulateProgress();
+
+            try {
+                const formData = new FormData();
+                formData.append('document', currentFile);
+
+                const response = await fetch(`${BACKEND_URL}/api/verify`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Verification failed');
+                }
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayResults(result.data);
+                } else {
+                    throw new Error(result.error || 'Verification failed');
+                }
+            } catch (error) {
+                console.error('Verification error:', error);
+                alert('Verification failed: ' + error.message);
+            } finally {
+                document.getElementById('progressSection').style.display = 'none';
+            }
+        }
+
+        function simulateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            let progress = 0;
+            
+            const steps = [
+                { progress: 20, text: 'Uploading document...' },
+                { progress: 40, text: 'Processing with computer vision...' },
+                { progress: 60, text: 'Analyzing with AI...' },
+                { progress: 80, text: 'Recording on blockchain...' },
+                { progress: 100, text: 'Verification complete!' }
+            ];
+            
+            let stepIndex = 0;
+            const interval = setInterval(() => {
+                if (stepIndex < steps.length) {
+                    const step = steps[stepIndex];
+                    progressFill.style.width = step.progress + '%';
+                    progressText.textContent = step.text;
+                    stepIndex++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 1000);
+        }
+
+        function displayResults(data) {
+            document.getElementById('resultsSection').style.display = 'block';
+            document.getElementById('docType').textContent = data.documentType || 'Unknown';
+            document.getElementById('fraudScore').textContent = data.fraudScore + '%';
+            document.getElementById('confidence').textContent = data.confidence + '%';
+            document.getElementById('status').textContent = data.isVerified ? 'Verified' : 'Failed';
+            document.getElementById('status').className = data.isVerified ? 'result-value verification-success' : 'result-value verification-failed';
+            document.getElementById('blockchainHash').textContent = data.blockchainHash ? data.blockchainHash.substring(0, 20) + '...' : 'N/A';
+            document.getElementById('processingTime').textContent = data.processingTime ? data.processingTime + 's' : 'N/A';
+        }
+
+        // Drag and drop functionality
+        const uploadSection = document.getElementById('uploadSection');
+        
+        uploadSection.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadSection.classList.add('dragover');
+        });
+        
+        uploadSection.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+        });
+        
+        uploadSection.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0 && files[0].type.startsWith('image/')) {
+                currentFile = files[0];
+                startVerification();
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# macOS
+.DS_Store
+
+# Model files
+*.h5
+
+# Environment
+.env
+
+# Node.js
+node_modules/
+.next/
+
+# Logs
+*.log 

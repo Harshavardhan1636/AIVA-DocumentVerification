@@ -1,0 +1,36 @@
+# Core dependencies
+numpy==1.24.3
+opencv-python==4.8.1.78
+requests==2.31.0
+
+# Machine Learning and AI
+tensorflow==2.15.0
+keras==2.15.0
+pillow==10.1.0
+matplotlib==3.8.2
+
+# OCR and Text Processing
+pytesseract==0.3.10
+
+# Blockchain and Web3
+web3==6.11.3
+eth-account==0.9.0
+eth-utils==2.2.0
+ipfshttpclient==0.8.0a2
+
+# Development and testing
+pytest==7.4.3
+pytest-cov==4.1.0
+black==23.11.0
+flake8==6.1.0
+
+# Utilities
+python-dotenv==1.0.0
+pyyaml==6.0.1
+jsonschema==4.19.2
+cryptography==41.0.7
+
+# Web Framework for API
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6 
