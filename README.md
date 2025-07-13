@@ -1,52 +1,54 @@
-# AIVA Document Verification System
+# Agentic Ethereum Hackathon India
 
-AI-powered document verification with blockchain logging for tamper-proof audit trails.
+# 🛠 Project Title - [Team Name]
 
-## Features
-- FastAPI backend with AI (TensorFlow, OpenCV, OCR)
-- Deterministic document hash (same doc = same hash)
-- Deterministic blockchain hash (same doc/user = same hash)
-- Next.js or HTML frontend for uploads and results
-- Mock blockchain for demo/hackathon
-
-## Setup
-
-### Backend
-```bash
-python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
-pip install -r requirements.txt
-python backend_server.py
-```
-
-### Frontend (Next.js)
-```bash
-cd "aiva frontend"
-npm install
-npm run dev
-```
-Or use `demo_frontend.html` with a static server:
-```bash
-python -m http.server 3000
-```
-
-## Usage
-- Open http://localhost:3000
-- Upload a document image (JPG/PNG)
-- See real-time verification, AI confidence, and blockchain hash
-
-## Demo Flow
-1. Upload the same document multiple times
-2. Observe the same document hash and blockchain hash in the results
-3. Tampered/altered docs will show different hashes
-
-## Team
-- [Your Name(s)]
-- [Contact info, if required]
-
-## Notes
-- Model file (`resnet_aadhar_trained.h5`) is not included due to size. Add your own if needed.
-- For hackathon/demo, blockchain is mocked for speed and reliability.
+Welcome to our submission for the *Agentic Ethereum Hackathon* by Reskilll & Geodework! This repository includes our project code, documentation, and related assets.
 
 ---
-Good luck and thank you for reviewing our project! 
+
+## 📌 Problem Statement
+
+We addressed the challenge: *“[Problem Statement Title]”*  
+Brief description of the challenge and why it matters.
+
+---
+
+## 💡 Our Solution
+
+*Project Name:* [Your Project Name]  
+A short pitch of your solution — what you built, who it’s for, and why it’s impactful.
+
+---
+
+## 🧱 Tech Stack
+
+- 🖥 Frontend: [React / Next.js / etc.]
+- ⚙ Backend: [Node.js / Python / etc.]
+- 🧠 AI: [Llama 3 / LangChain / OpenAI / etc.]
+- 🔗 Blockchain: [Ethereum / Solidity / Foundry / etc.]
+- 🔍 DB/Storage: [IPFS / PostgreSQL / Firebase / etc.]
+- 🚀 Hosting: [Vercel / Netlify / Render / etc.]
+
+---
+
+## 📽 Demo
+
+- 🎥 *Video Link*: [YouTube/Drive Link]  
+- 🖥 *Live App (if available)*: [URL]
+
+---
+
+## 📂 Repository Structure
+
+```bash
+.
+├── frontend/           # Frontend code
+├── backend/            # Backend code
+├── contracts/          # Smart contracts
+├── assets/             # PPT, video links, images
+├── docs/               # Architecture diagram, notes
+├── README.md           # A detailed description of your project
+├── .env.example
+├── package.json / requirements.txt
+├── yourppt.ppt
+``` 
