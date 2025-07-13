@@ -28,12 +28,15 @@ With AIVA, document trust becomes **fast, intelligent, and verifiable — foreve
 
 ## 🧱 Tech Stack
 
-- 🖥 Frontend: [React / Next.js / etc.]
-- ⚙ Backend: [Node.js / Python / etc.]
-- 🧠 AI: [Llama 3 / LangChain / OpenAI / etc.]
-- 🔗 Blockchain: [Ethereum / Solidity / Foundry / etc.]
-- 🔍 DB/Storage: [IPFS / PostgreSQL / Firebase / etc.]
-- 🚀 Hosting: [Vercel / Netlify / Render / etc.]
+| Layer        | Technology                                      |
+|--------------|-------------------------------------------------|
+| 🖥 Frontend   | Streamlit (Python-based demo UI)                |
+| ⚙ Backend    | Flask (Python REST APIs for integration)        |
+| 🧠 AI Model   | Custom CNN using ResNet50 for forgery detection |
+| 🔗 Blockchain | Ethereum (Sepolia Testnet), Solidity, Hardhat  |
+| 🔍 Storage    | (Optional) IPFS for document hash anchoring     |
+| 🚀 Hosting    | Localhost (for demo); Deployable via Render/Heroku |
+
 
 ---
 
